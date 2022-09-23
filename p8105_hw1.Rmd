@@ -1,0 +1,117 @@
+---
+title: "p8105_hw1"
+output: github_document
+date: "2022-09-23"
+---
+
+# Problem 1 
+
+```{r code}
+library(tidyverse)
+
+library(dplyr)
+```
+
+# Description of Data 
+```{r}
+data("penguins",package = "palmerpenguins")
+```
+
+```{r}
+nrow(penguins)
+
+view(penguins)
+```
+In this dataset there are 344 rows and 8 columns. Each row represents an individual penguin, it's species type, island, bill length (mm), bill depth (mm), flipper length (mm), body mass (g), sex (m/f) and year. 
+
+# Find the mean of flipper_length 
+
+```{r}
+mean(penguins$flipper_length_mm)
+```
+
+```{r}
+
+mean(pull(penguins,flipper_length_mm),na.rm = TRUE)
+```
+
+#Scatter plot# 
+
+```{r}
+myplot = ggplot(penguins, aes(x = bill_length_mm, y = flipper_length_mm)) + geom_point() 
+
+ggsave("myplot2.pdf",myplot)
+  
+```
+
+# Problem 2 
+
+# Creating a new  dataframe
+```{r}
+third_df = tibble(
+  norm = rnorm(10),
+  logical = norm > 0, 
+  vec_char = c("one","two","three","two","one","one","two","one","two","three"),
+  vec_fac = factor (c("one","two","three","one","two","three","one","one","two","three"),levels = c("one", "two", "three" ))
+  
+)
+```
+
+```{r}
+
+```
+
+
+# Taking the mean of dateframe
+
+```{r}
+mean(third_df$norm)
+```
+-0.4410941
+
+```{r}
+mean(third_df$logical)
+
+```
+0.3 
+(don't need to write this, 0,1 linear regression, mean of the vector 
+5 -> 1 
+5 -> 0 
+
+proportion of people that had a true value )
+
+```{r}
+mean(third_df$vec_char)
+mean(pull(third_df,vec_char))
+
+
+```
+0
+
+```{r}
+mean(third_df$vec_fac)
+```
+
+#Trying to use pull 
+
+```{r}
+library(tidyverse)
+
+
+library(dplyr)
+```
+
+
+```{r}
+#mean(pull(third_df,vec_fac))
+```
+
+
+```{r}
+
+as.numeric(pull(third_df,vec_fac))
+
+mean(as.numeric(pull(third_df,vec_fac)))
+
+```
+
