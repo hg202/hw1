@@ -12,7 +12,7 @@ library(tidyverse)
 library(dplyr)
 ```
 
-# Description of Data 
+# Description of Data and Mean of Flipper
 ```{r}
 data("penguins",package = "palmerpenguins")
 ```
@@ -20,98 +20,74 @@ data("penguins",package = "palmerpenguins")
 ```{r}
 nrow(penguins)
 
-view(penguins)
-```
-In this dataset there are 344 rows and 8 columns. Each row represents an individual penguin, it's species type, island, bill length (mm), bill depth (mm), flipper length (mm), body mass (g), sex (m/f) and year. 
-
-# Find the mean of flipper_length 
-
-```{r}
-mean(penguins$flipper_length_mm)
-```
-
-```{r}
+ncol(penguins)
 
 mean(pull(penguins,flipper_length_mm),na.rm = TRUE)
 ```
+In this dataset there are 344 rows and 8 columns. Each row represents an individual penguin, it's species type, island, bill length (mm), bill depth (mm), flipper length (mm), body mass (g), sex (m/f) and year. The mean flipper length is 200.9151 mm. 
+
 
 #Scatter plot# 
 
 ```{r}
-myplot = ggplot(penguins, aes(x = bill_length_mm, y = flipper_length_mm)) + geom_point() 
 
-ggsave("myplot2.pdf",myplot)
-  
+myplot2 = 
+  ggplot(penguins, aes(x = bill_length_mm, y = flipper_length_mm,col = species)) + geom_point() 
+
+myplot2
+
+ggsave("myplot2.pdf",myplot2)
 ```
 
 # Problem 2 
 
 # Creating a new  dataframe
+
 ```{r}
 third_df = tibble(
   norm = rnorm(10),
   logical = norm > 0, 
   vec_char = c("one","two","three","two","one","one","two","one","two","three"),
-  vec_fac = factor (c("one","two","three","one","two","three","one","one","two","three"),levels = c("one", "two", "three" ))
+  vec_fac = factor (c("one","two","three","one","two","three","one","one","two","three"),
+                    levels = c("one", "two", "three" ))
   
 )
 ```
 
+# Taking the means of each variable 
+
 ```{r}
+
+mean(pull(third_df,norm))
+mean(pull(third_df,logical))
+mean(pull(third_df,vec_char))
+mean(pull(third_df,vec_fac))
 
 ```
 
-
-# Taking the mean of dateframe
-
-```{r}
-mean(third_df$norm)
-```
--0.4410941
-
-```{r}
-mean(third_df$logical)
-
-```
-0.3 
-(don't need to write this, 0,1 linear regression, mean of the vector 
+Why can do logic: 
+ 0,1 linear regression, mean of the vector 
 5 -> 1 
 5 -> 0 
 
+Why it won't do factor/char? 
+
+R doesn't want to do this because it doesn't know how to accutly discribe the length amount difference between these groups...?
+
 proportion of people that had a true value )
 
+#Using as.numeric for logic,char and factor 
+
 ```{r}
-mean(third_df$vec_char)
-mean(pull(third_df,vec_char))
-
-
+mean(as.numeric(pull(third_df,logical)))
 ```
-0
+Get the same mean for logic, makes sense! 
 
 ```{r}
-mean(third_df$vec_fac)
-```
-
-#Trying to use pull 
-
-```{r}
-library(tidyverse)
-
-
-library(dplyr)
+mean(as.numeric(pull(third_df,vec_char)))
 ```
 
-
 ```{r}
-#mean(pull(third_df,vec_fac))
-```
-
-
-```{r}
-
-as.numeric(pull(third_df,vec_fac))
-
 mean(as.numeric(pull(third_df,vec_fac)))
-
 ```
-
+Still won't do the character. Succesfully does logic and vec_fac. 
