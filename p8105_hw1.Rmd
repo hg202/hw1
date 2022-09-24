@@ -12,9 +12,10 @@ library(tidyverse)
 library(dplyr)
 ```
 
-# Description of Data and Mean of Flipper
+# Description of Penguins Data and Mean 
 ```{r}
 data("penguins",package = "palmerpenguins")
+
 ```
 
 ```{r}
@@ -24,10 +25,10 @@ ncol(penguins)
 
 mean(pull(penguins,flipper_length_mm),na.rm = TRUE)
 ```
-In this dataset there are 344 rows and 8 columns. Each row represents an individual penguin, it's species type, island, bill length (mm), bill depth (mm), flipper length (mm), body mass (g), sex (m/f) and year. The mean flipper length is 200.9151 mm. 
+In the dataset `penguins` there are *344 rows* and *8 columns*. Each row represents a penguin's  species type, island location, bill length (mm), bill depth (mm), flipper length (mm), body mass (g), sex (m/f) and year. For this dataset the mean flipper length is *200.9151 mm*. 
 
 
-#Scatter plot# 
+# Create a Scatterplot 
 
 ```{r}
 
@@ -41,7 +42,7 @@ ggsave("myplot2.pdf",myplot2)
 
 # Problem 2 
 
-# Creating a new  dataframe
+# Creating a New Dataframe
 
 ```{r}
 third_df = tibble(
@@ -54,7 +55,7 @@ third_df = tibble(
 )
 ```
 
-# Taking the means of each variable 
+# Taking Means of Each Variable 
 
 ```{r}
 
@@ -65,18 +66,11 @@ mean(pull(third_df,vec_fac))
 
 ```
 
-Why can do logic: 
- 0,1 linear regression, mean of the vector 
-5 -> 1 
-5 -> 0 
+Simply pulling the column from the dataset and getting the mean was succesful for the *normally distributed variable* and *logical variable*. The reason it worked for the normally distributed variable is straight forward because it has numeric values. However, for the logical variable, it was still able to calculate a mean because it labeled the character variables as either a '0' or '1', so this value allows us to interpret it as a proportion (had the true value). 
 
-Why it won't do factor/char? 
+Unlike *vector variable* or a *factor variable* which R does not give values of 'O' or '1' so when trying to calculate the mean of a character value, it will only say "NA". 
 
-R doesn't want to do this because it doesn't know how to accutly discribe the length amount difference between these groups...?
-
-proportion of people that had a true value )
-
-#Using as.numeric for logic,char and factor 
+# Converting variables  
 
 ```{r}
 mean(as.numeric(pull(third_df,logical)))
@@ -90,4 +84,15 @@ mean(as.numeric(pull(third_df,vec_char)))
 ```{r}
 mean(as.numeric(pull(third_df,vec_fac)))
 ```
+
+_How do I not show the output. Is it already doing that?_
+
+When we convert these variables into numeric values. The R code is able to do it succesfully for only *logic variable* and the *vector variable*. The same method is used to explain what's happening to the logic variable *above*. 
+However, it can not do it for a character variable because it doesn't know the diffence between the groups, unlike the vector which tells it how to rank it. 
+
+
+
+R doesn't want to do this because it doesn't know how to acutely discribe the length difference between these three levels. 
+
+
 Still won't do the character. Succesfully does logic and vec_fac. 
